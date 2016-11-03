@@ -88,6 +88,7 @@ def main():
 
   if PLATFORM != 'win32':
     copy_api_json_schema()
+    copy_typescript_definition()
 
   if PLATFORM == 'linux':
     strip_binaries()
@@ -133,6 +134,9 @@ def copy_license():
 
 def copy_api_json_schema():
   shutil.copy2(os.path.join(SOURCE_ROOT, 'out', 'electron-api.json'), DIST_DIR)
+
+def copy_typescript_definition():
+  shutil.copy2(os.path.join(SOURCE_ROOT, 'out', 'electron.d.ts'), DIST_DIR)
 
 def strip_binaries():
   for binary in TARGET_BINARIES[PLATFORM]:
