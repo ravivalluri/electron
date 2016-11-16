@@ -4,7 +4,7 @@
 
 Process: [Main](../tutorial/quick-start.md#main-process)
 
-The `process` object is extended in Electron with following APIs:
+The [`process`](https://nodejs.org/api/process.html) object is extended in Electron with following APIs:
 
 ## Events
 
@@ -63,14 +63,6 @@ for otherwise it is `undefined`.
 
 When app is started by being passed as parameter to the default app, this
 property is `true` in the main process, otherwise it is `undefined`.
-
-### `process.platform`
-
-A String representing the name of the platform the app is running on.  Can be `darwin`, `linux` or `win32`.
-
-### `process.argv`
-
-A String[] array containing the arguments passed to the application when started. To get the arguments from the renderer process use `require('electron').remote.process.argv`
 
 ## Methods
 
