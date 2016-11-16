@@ -81,6 +81,10 @@ def main():
     sys.stderr.write('\nRunning `npm run lint`\n')
     sys.stderr.flush()
     execute([npm, 'run', 'lint'])
+
+    sys.stderr.write('\nRunning `npm run generate-dts`\n')
+    sys.stderr.flush()
+    execute([npm, 'run', 'generate-dts'])
   if is_release:
     run_script('build.py', ['-c', 'R'])
     run_script('create-dist.py')
