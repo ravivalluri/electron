@@ -50,6 +50,10 @@ bool Browser::IsDefaultProtocolClient(const std::string& protocol,
   return false;
 }
 
+base::string16 Browser::GetDefaultProtocolClient(const std::string& protocol) {
+  return L"";
+}
+
 bool Browser::SetBadgeCount(int count) {
   if (IsUnityRunning()) {
     unity::SetDownloadCount(count);

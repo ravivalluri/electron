@@ -116,6 +116,10 @@ bool Browser::IsDefaultProtocolClient(const std::string& protocol,
   return result == NSOrderedSame;
 }
 
+base::string16 Browser::GetDefaultProtocolClient(const std::string& protocol) {
+  return L"";
+}
+
 void Browser::SetAppUserModelID(const base::string16& name) {
 }
 
