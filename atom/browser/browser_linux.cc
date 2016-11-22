@@ -9,7 +9,6 @@
 #include "atom/browser/native_window.h"
 #include "atom/browser/window_list.h"
 #include "atom/common/atom_version.h"
-#include "atom/common/native_mate_converters/string16_converter.h"
 #include "base/strings/utf_string_conversions.h"
 #include "brightray/common/application_info.h"
 #include "chrome/browser/ui/libgtk2ui/unity_service.h"
