@@ -272,7 +272,7 @@ void Window::OnExecuteWindowsCommand(const std::string& command_name) {
 }
 
 void Window::OnTouchBarItemResult(const std::string& item_type, const std::string& item_id) {
-  Emit("_touch-bar-interaction", item_type, item_id);
+  Emit("-touch-bar-interaction", item_type, item_id);
 }
 
 #if defined(OS_WIN)
@@ -797,8 +797,12 @@ void Window::SetVibrancy(mate::Arguments* args) {
   window_->SetVibrancy(type);
 }
 
-void Window::InitTouchBar()  {
-  window_->InitTouchBar();
+void Window::DestroyTouchBar()  {
+  window_->DestroyTouchBar();
+}
+
+void Window::SetTouchBar(mate::Arguments* args) {
+  window_->SetTouchBar(args);
 }
 
 int32_t Window::ID() const {
@@ -917,7 +921,8 @@ void Window::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("isVisibleOnAllWorkspaces",
                  &Window::IsVisibleOnAllWorkspaces)
       .SetMethod("setVibrancy", &Window::SetVibrancy)
-      .SetMethod("initTouchBar", &Window::InitTouchBar)
+      .SetMethod("_destroyTouchBar", &Window::DestroyTouchBar)
+      .SetMethod("_setTouchBar", &Window::SetTouchBar)
 #if defined(OS_WIN)
       .SetMethod("hookWindowMessage", &Window::HookWindowMessage)
       .SetMethod("isWindowMessageHooked", &Window::IsWindowMessageHooked)

@@ -198,7 +198,8 @@ class Window : public mate::TrackableObject<Window>,
   bool IsVisibleOnAllWorkspaces();
 
   void SetVibrancy(mate::Arguments* args);
-  void InitTouchBar();
+  void DestroyTouchBar();
+  void SetTouchBar(mate::Arguments* args);
 
   int32_t ID() const;
   v8::Local<v8::Value> WebContents(v8::Isolate* isolate);

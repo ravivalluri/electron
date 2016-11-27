@@ -13,6 +13,7 @@
 #include "atom/browser/native_window.h"
 #include "base/mac/scoped_nsobject.h"
 #include "content/public/browser/render_widget_host.h"
+#include "native_mate/constructor.h"
 
 @class AtomNSWindow;
 @class AtomNSWindowDelegate;
@@ -93,7 +94,9 @@ class NativeWindowMac : public NativeWindow,
   void SetVisibleOnAllWorkspaces(bool visible) override;
   bool IsVisibleOnAllWorkspaces() override;
   void SetVibrancy(const std::string& type) override;
-  void InitTouchBar() override;
+  void DestroyTouchBar() override;
+  void SetTouchBar(mate::Arguments* args) override;
+  std::vector<mate::Dictionary> GetTouchBarItems();
 
   // content::RenderWidgetHost::InputEventObserver:
   void OnInputEvent(const blink::WebInputEvent& event) override;
@@ -147,6 +150,8 @@ class NativeWindowMac : public NativeWindow,
 
   base::scoped_nsobject<AtomNSWindow> window_;
   base::scoped_nsobject<AtomNSWindowDelegate> window_delegate_;
+
+  std::vector<mate::Dictionary> touch_bar_items_;
 
   // Event monitor for scroll wheel event.
   id wheel_event_monitor_;
