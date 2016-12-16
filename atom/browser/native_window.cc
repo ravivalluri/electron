@@ -343,6 +343,9 @@ void NativeWindow::DestroyTouchBar() {
 void NativeWindow::SetTouchBar(mate::Arguments* args) {
 }
 
+void NativeWindow::RefreshTouchBarItem(mate::Arguments* args) {
+}
+
 void NativeWindow::FocusOnWebView() {
   web_contents()->GetRenderViewHost()->GetWidget()->Focus();
 }

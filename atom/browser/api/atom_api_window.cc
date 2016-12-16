@@ -806,6 +806,10 @@ void Window::SetTouchBar(mate::Arguments* args) {
   window_->SetTouchBar(args);
 }
 
+void Window::RefreshTouchBarItem(mate::Arguments* args) {
+  window_->RefreshTouchBarItem(args);
+}
+
 int32_t Window::ID() const {
   return weak_map_id();
 }
@@ -924,6 +928,7 @@ void Window::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("setVibrancy", &Window::SetVibrancy)
       .SetMethod("_destroyTouchBar", &Window::DestroyTouchBar)
       .SetMethod("_setTouchBar", &Window::SetTouchBar)
+      .SetMethod("_refreshTouchBarItem", &Window::RefreshTouchBarItem)
 #if defined(OS_WIN)
       .SetMethod("hookWindowMessage", &Window::HookWindowMessage)
       .SetMethod("isWindowMessageHooked", &Window::IsWindowMessageHooked)
