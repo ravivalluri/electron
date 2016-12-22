@@ -30,6 +30,8 @@ supports `dmg` as a build target.
 IPC stands for Inter-Process Communication. Electron uses IPC to send
 serialized JSON messages between the [main] and [renderer] processes.
 
+See also: [ipcMain](api/ipc-main.md), [ipcRenderer](api/ipc-renderer.md)
+
 ### libchromiumcontent
 
 A single, shared library that includes the Chromium Content module and all its
