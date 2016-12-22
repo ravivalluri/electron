@@ -42,7 +42,7 @@ dependencies (e.g., Blink, [V8], etc.).
 
 The main process, commonly a file named `main.js`, is the entry point to every
 Electron app. It controls the life of the app, from open to close. It also
-manages native elements such as the Menu, Menu Bar, Dock, Tray, etc.  The
+manages native elements such as the [Menu](api/menu.md), Menu Bar, Dock, [Tray](api/tray.md), etc.  The
 main process is responsible for creating each new renderer process in the app.
 The full Node API is built in.
 
