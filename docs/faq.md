@@ -28,7 +28,7 @@ use HTML5 APIs which are already available in browsers. Good candidates are
 [Storage API][storage], [`localStorage`][local-storage],
 [`sessionStorage`][session-storage], and [IndexedDB][indexed-db].
 
-Or you can use the IPC system, which is specific to Electron, to store objects
+Or you can use the [IPC](../glossary.md#ipc) system, which is specific to Electron, to store objects
 in the main process as a global variable, and then to access them from the
 renderers through the `remote` property of `electron` module:
 

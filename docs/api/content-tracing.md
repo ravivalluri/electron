@@ -95,7 +95,7 @@ Stop recording on all processes.
 
 Child processes typically cache trace data and only rarely flush and send
 trace data back to the main process. This helps to minimize the runtime overhead
-of tracing since sending trace data over IPC can be an expensive operation. So,
+of tracing since sending trace data over [IPC](../glossary.md#ipc) can be an expensive operation. So,
 to end tracing, we must asynchronously ask all child processes to flush any
 pending trace data.
 
@@ -140,13 +140,12 @@ Get the current monitoring traced data.
 
 Child processes typically cache trace data and only rarely flush and send
 trace data back to the main process. This is because it may be an expensive
-operation to send the trace data over IPC and we would like to avoid unneeded
-runtime overhead from tracing. So, to end tracing, we must asynchronously ask
-all child processes to flush any pending trace data.
+operation to send the trace data over [IPC](../glossary.md#ipc) and we would
+like to avoid unneeded runtime overhead from tracing. So, to end tracing, we
+must asynchronously ask all child processes to flush any pending trace data.
 
 Once all child processes have acknowledged the `captureMonitoringSnapshot`
 request the `callback` will be called with a file that contains the traced data.
-
 
 ### `contentTracing.getTraceBufferUsage(callback)`
 

@@ -5,7 +5,7 @@
 Process: [Renderer](../glossary.md#renderer-process)
 
 The `remote` module provides a simple way to do inter-process communication
-(IPC) between the renderer process (web page) and the main process.
+([IPC](../glossary.md#ipc) between the renderer process (web page) and the main process.
 
 In Electron, GUI-related modules (such as `dialog`, `menu` etc.) are only
 available in the main process, not in the renderer process. In order to use them
@@ -41,7 +41,7 @@ returned the corresponding remote object in the renderer process, namely the
 **Note:** Only [enumerable properties][enumerable-properties] which are present
 when the remote object is first referenced are accessible via remote.
 
-**Note:** Arrays and Buffers are copied over IPC when accessed via the `remote`
+**Note:** Arrays and Buffers are copied over [IPC](../glossary.md#ipc) when accessed via the `remote`
 module. Modifying them in the renderer process does not modify them in the main
 process and vice versa.
 
