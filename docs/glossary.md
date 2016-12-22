@@ -8,7 +8,8 @@ ASAR stands for Atom Shell Archive Format. An [asar][asar] archive is a simple
 `tar`-like format that concatenates files into a single file. Electron can read
 arbitrary files from it without unpacking the whole file.
 
-The ASAR format was created primarily to improve performance on Windows... TODO
+The ASAR format was created primarily to work around issues with Windows, as
+some versions of Windows do not allow file paths beyond 256 characters.
 
 ### Brightray
 
