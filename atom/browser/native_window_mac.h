@@ -85,7 +85,11 @@ class NativeWindowMac : public NativeWindow,
   bool IsDocumentEdited() override;
   void SetIgnoreMouseEvents(bool ignore) override;
   void SetContentProtection(bool enable) override;
+
+  void AddChildView(brightray::InspectableWebContents* inspectable_web_contents) override;
+
   void SetParentWindow(NativeWindow* parent) override;
+
   gfx::NativeWindow GetNativeWindow() override;
   gfx::AcceleratedWidget GetAcceleratedWidget() override;
   void SetProgressBar(double progress, const ProgressState state) override;

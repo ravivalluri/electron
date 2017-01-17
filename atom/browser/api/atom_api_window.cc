@@ -5,6 +5,7 @@
 #include "atom/browser/api/atom_api_window.h"
 #include "atom/common/native_mate_converters/value_converter.h"
 
+#include "atom/browser/api/atom_api_browser_view.h"
 #include "atom/browser/api/atom_api_menu.h"
 #include "atom/browser/api/atom_api_web_contents.h"
 #include "atom/browser/browser.h"
@@ -770,6 +771,18 @@ void Window::CloseFilePreview() {
   window_->CloseFilePreview();
 }
 
+void Window::AddBrowserView(v8::Local<v8::Value> value,
+                            mate::Arguments* args) {
+  mate::Handle<BrowserView> browserView;
+  if (mate::ConvertFromV8(isolate(), value, &browserView)) {
+    mate::ConvertToV8(isolate(), this);
+    window_->AddChildView(browserView->web_contents()->managed_web_contents());
+    child_views_.Set(isolate(), browserView->ID(), browserView->GetWrapper());
+  } else {
+    args->ThrowError("Must pass BrowserWindow instance or null");
+  }
+}
+
 void Window::SetParentWindow(v8::Local<v8::Value> value,
                              mate::Arguments* args) {
   if (IsModal()) {
@@ -879,6 +892,7 @@ void Window::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("setAspectRatio", &Window::SetAspectRatio)
       .SetMethod("previewFile", &Window::PreviewFile)
       .SetMethod("closeFilePreview", &Window::CloseFilePreview)
+      .SetMethod("addBrowserView", &Window::AddBrowserView)
 #if !defined(OS_WIN)
       .SetMethod("setParentWindow", &Window::SetParentWindow)
 #endif

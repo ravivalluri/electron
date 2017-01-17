@@ -800,6 +800,19 @@ NativeWindowMac::~NativeWindowMac() {
   Observe(nullptr);
 }
 
+void NativeWindowMac::AddChildView(
+    brightray::InspectableWebContents* child_inspectable_web_contents) {
+  NSView* view = inspectable_web_contents()->GetView()->GetNativeView();
+  NSView* child_view =
+      child_inspectable_web_contents->GetView()->GetNativeView();
+  [view.superview addSubview:child_view
+                  positioned:NSWindowAbove
+                  relativeTo:nil];
+  [child_view setFrame:view.frame];
+  child_view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+  [child_view setHidden:NO];
+}
+
 void NativeWindowMac::Close() {
   // When this is a sheet showing, performClose won't work.
   if (is_modal() && parent() && IsVisible()) {
