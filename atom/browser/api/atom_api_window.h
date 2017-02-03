@@ -15,6 +15,7 @@
 #include "atom/browser/native_window_observer.h"
 #include "atom/common/api/atom_api_native_image.h"
 #include "atom/common/key_weak_map.h"
+#include "atom/common/native_mate_converters/accelerator_converter.h"
 #include "native_mate/handle.h"
 #include "ui/gfx/image/image.h"
 
@@ -177,6 +178,7 @@ class Window : public mate::TrackableObject<Window>,
   std::vector<v8::Local<v8::Object>> GetChildWindows() const;
   bool IsModal() const;
   v8::Local<v8::Value> GetNativeWindowHandle();
+  mate::Dictionary GetKeyDetailsFromAccelerator(std::string accelerator, mate::Arguments* args);
 
 #if defined(OS_WIN)
   typedef base::Callback<void(v8::Local<v8::Value>,

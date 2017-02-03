@@ -17,8 +17,10 @@
 
 namespace accelerator_util {
 
-bool StringToAccelerator(const std::string& shortcut,
-                         ui::Accelerator* accelerator) {
+bool StringToKeycodeModifiers(const std::string& shortcut,
+                              ui::KeyboardCode* key, bool* shift,
+                              bool* control, bool* alt, bool* command,
+                              bool* altgr) {
   if (!base::IsStringASCII(shortcut)) {
     LOG(ERROR) << "The accelerator string can only contain ASCII characters";
     return false;
@@ -27,40 +29,71 @@ bool StringToAccelerator(const std::string& shortcut,
   std::vector<std::string> tokens = base::SplitString(
      shortcut, "+", base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY);
 
-  // Now, parse it into an accelerator.
-  int modifiers = ui::EF_NONE;
-  ui::KeyboardCode key = ui::VKEY_UNKNOWN;
+  *key = ui::VKEY_UNKNOWN;
   for (const auto& token : tokens) {
     bool shifted = false;
     ui::KeyboardCode code = atom::KeyboardCodeFromStr(token, &shifted);
     if (shifted)
-      modifiers |= ui::EF_SHIFT_DOWN;
+      *shift = !*shift;
     switch (code) {
       // The token can be a modifier.
       case ui::VKEY_SHIFT:
-        modifiers |= ui::EF_SHIFT_DOWN;
+        *shift = !*shift;
         break;
       case ui::VKEY_CONTROL:
-        modifiers |= ui::EF_CONTROL_DOWN;
+        *control = !*control;
         break;
       case ui::VKEY_MENU:
-        modifiers |= ui::EF_ALT_DOWN;
+        *alt = !*alt;
         break;
       case ui::VKEY_COMMAND:
-        modifiers |= ui::EF_COMMAND_DOWN;
+        *command = !*command;
         break;
       case ui::VKEY_ALTGR:
-        modifiers |= ui::EF_ALTGR_DOWN;
+        *altgr = !*altgr;
         break;
       // Or it is a normal key.
       default:
-        key = code;
+        *key = code;
     }
   }
 
-  if (key == ui::VKEY_UNKNOWN) {
+  if (*key == ui::VKEY_UNKNOWN) {
     LOG(WARNING) << shortcut << " doesn't contain a valid key";
     return false;
+  }
+
+  return true;
+}
+
+bool StringToAccelerator(const std::string& shortcut,
+                         ui::Accelerator* accelerator) {
+  bool shift = false;
+  bool control = false;
+  bool alt = false;
+  bool command = false;
+  bool altgr = false;
+  ui::KeyboardCode key = ui::VKEY_UNKNOWN;
+  if (!StringToKeycodeModifiers(shortcut, &key, &shift, &control, &alt, &command, &altgr)) {
+    return false;
+  }
+
+  // Now, parse it into an accelerator.
+  int modifiers = ui::EF_NONE;
+  if (shift) {
+    modifiers |= ui::EF_SHIFT_DOWN;
+  }
+  if (control) {
+    modifiers |= ui::EF_CONTROL_DOWN;
+  }
+  if (alt) {
+    modifiers |= ui::EF_ALT_DOWN;
+  }
+  if (command) {
+    modifiers |= ui::EF_COMMAND_DOWN;
+  }
+  if (altgr) {
+    modifiers |= ui::EF_ALTGR_DOWN;
   }
 
   *accelerator = ui::Accelerator(key, modifiers);

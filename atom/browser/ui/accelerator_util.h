@@ -20,6 +20,11 @@ typedef std::map<ui::Accelerator, MenuItem> AcceleratorTable;
 bool StringToAccelerator(const std::string& description,
                          ui::Accelerator* accelerator);
 
+bool StringToKeycodeModifiers(const std::string& description,
+                               ui::KeyboardCode* code, bool* shift,
+                               bool* control, bool* alt, bool* command,
+                               bool* altgr);
+
 // Set platform accelerator for the Accelerator.
 void SetPlatformAccelerator(ui::Accelerator* accelerator);
 

@@ -9,6 +9,8 @@
 #include "atom/browser/api/atom_api_web_contents.h"
 #include "atom/browser/browser.h"
 #include "atom/browser/native_window.h"
+#include "atom/browser/ui/accelerator_util.h"
+#include "atom/common/native_mate_converters/accelerator_converter.h"
 #include "atom/common/native_mate_converters/callback.h"
 #include "atom/common/native_mate_converters/file_path_converter.h"
 #include "atom/common/native_mate_converters/gfx_converter.h"
@@ -22,7 +24,10 @@
 #include "content/public/common/content_switches.h"
 #include "native_mate/constructor.h"
 #include "native_mate/dictionary.h"
+#include "native_mate/persistent_dictionary.h"
 #include "ui/gfx/geometry/rect.h"
+#include "ui/events/keycodes/dom/keycode_converter.h"
+#include "ui/events/keycodes/keyboard_code_conversion.h"
 
 #if defined(TOOLKIT_VIEWS)
 #include "atom/browser/native_window_views.h"
@@ -862,6 +867,33 @@ void Window::RemoveFromParentChildWindows() {
   parent->child_windows_.Remove(ID());
 }
 
+mate::Dictionary Window::GetKeyDetailsFromAccelerator(std::string accelerator, mate::Arguments* args) {
+  bool shift = false;
+  bool control = false;
+  bool alt = false;
+  bool command = false;
+  bool altgr = false;
+  mate::Dictionary dict = mate::Dictionary::CreateEmpty(args->isolate());
+  ui::KeyboardCode key = ui::VKEY_UNKNOWN;
+  if (!accelerator_util::StringToKeycodeModifiers(accelerator, &key, &shift, &control, &alt, &command, &altgr)) {
+    args->ThrowError("Failed to parse string as Accelerator");
+    return dict;
+  }
+  dict.Set("shiftKey", shift);
+  dict.Set("controlKey", control);
+  dict.Set("altKey", alt);
+  dict.Set("metaKey", command);
+  dict.Set("altGrKey", altgr);
+  dict.Set("code", ui::KeycodeConverter::DomCodeToCodeString(ui::KeycodeConverter::NativeKeycodeToDomCode(key)));
+  return dict;
+}
+
+// base::string16 Window::GetKeyboardCodeFromAccelerator(mate::Dictionary dict) {
+//   ui::Accelerator acc;
+//   dict.Get("shortcut", &acc);
+//   return acc.GetShortcutText();
+// }
+
 // static
 void Window::BuildPrototype(v8::Isolate* isolate,
                             v8::Local<v8::FunctionTemplate> prototype) {
@@ -956,6 +988,8 @@ void Window::BuildPrototype(v8::Isolate* isolate,
                  &Window::SetVisibleOnAllWorkspaces)
       .SetMethod("isVisibleOnAllWorkspaces",
                  &Window::IsVisibleOnAllWorkspaces)
+      .SetMethod("_getKeyDetailsFromAccelerator", 
+                 &Window::GetKeyDetailsFromAccelerator)
 #if defined(OS_MACOSX)
       .SetMethod("setAutoHideCursor", &Window::SetAutoHideCursor)
 #endif
