@@ -265,8 +265,8 @@ void AtomRendererClient::RenderFrameCreated(
   blink::WebSecurityPolicy::registerURLSchemeAsAllowingServiceWorkers("file");
 
   // Allow access to file scheme from pdf viewer.
-  blink::WebSecurityPolicy::addOriginAccessWhitelistEntry(GURL(kPdfPluginPath),
-                                                          "file", "", true);
+  blink::WebSecurityPolicy::addOriginAccessWhitelistEntry(
+      GURL(kPdfViewerUIOrigin), "file", "", true);
 
   // Parse --secure-schemes=scheme1,scheme2
   std::vector<std::string> secure_schemes_list =
