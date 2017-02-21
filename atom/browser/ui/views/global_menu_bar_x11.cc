@@ -4,6 +4,7 @@
 
 #include "atom/browser/ui/views/global_menu_bar_x11.h"
 
+#include <iostream>
 #include <X11/Xlib.h>
 
 // This conflicts with mate::Converter,
@@ -240,6 +241,7 @@ void GlobalMenuBarX11::BuildMenuFromModel(AtomMenuModel* model,
         menuitem_property_set(item, kPropertyChildrenDisplay, kDisplaySubmenu);
         g_signal_connect(item, "about-to-show",
                          G_CALLBACK(OnSubMenuShowThunk), this);
+        g_signal_connect(item, "event", G_CALLBACK(OnSubMenuEvent), this);
       } else {
         ui::Accelerator accelerator;
         if (model->GetAcceleratorAtWithParams(i, true, &accelerator))
@@ -300,6 +302,12 @@ void GlobalMenuBarX11::OnItemActivated(DbusmenuMenuitem* item,
   if (model && GetMenuItemID(item, &id))
     model->ActivatedAt(id, 0);
 }
+
+void GlobalMenuBarX11::OnSubMenuEvent(DbusmenuMenuitem* item,
+                                      const char *event) {
+  std::cout << "event: " << event << '\n';
+}
+
 
 void GlobalMenuBarX11::OnSubMenuShow(DbusmenuMenuitem* item) {
   int id;

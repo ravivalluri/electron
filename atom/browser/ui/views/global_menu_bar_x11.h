@@ -64,6 +64,8 @@ class GlobalMenuBarX11 {
   CHROMEG_CALLBACK_1(GlobalMenuBarX11, void, OnItemActivated, DbusmenuMenuitem*,
                      unsigned int);
   CHROMEG_CALLBACK_0(GlobalMenuBarX11, void, OnSubMenuShow, DbusmenuMenuitem*);
+  CHROMEG_CALLBACK_1(GlobalMenuBarX11, void, OnSubMenuEvent, DbusmenuMenuitem*,
+                     const char* event);
 
   NativeWindowViews* window_;
   gfx::AcceleratedWidget xid_;
